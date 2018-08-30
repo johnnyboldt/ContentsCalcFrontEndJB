@@ -5,7 +5,6 @@ import ItemInputContainer from './containers/ItemInputContainer';
 import './css/App.css';
 import { ItemList } from "./models/ItemsStore";
 
-
 const itemList = ItemList.create()
 
 class App extends React.PureComponent {
