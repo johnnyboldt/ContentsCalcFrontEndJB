@@ -5,13 +5,13 @@ import { Item } from "../models/ItemsStore";
 export interface ItemInputContainerProps {
     itemList: any;
 }
-// const API = 'https://hn.algolia.com/api/v1/search?query=';
+ const API_URL = 'http://localhost:52395/api/values';
 
 const addItem = (name: string, value: number, category: string, itemList: any): void => {
   // todo: move this into method and add error checking. Add similiar call for delete
   const payload = { 'name': name, 'value': value, 'category': category };
   fetch('http://localhost:52395/api/values', {
-    body: JSON.stringify(payload),
+   body: JSON.stringify(payload),
    headers: {'Accept': 'application/json','Content-Type':'application/json'},
    method: 'post',
    mode: 'no-cors' // Required to prevent some weird error
