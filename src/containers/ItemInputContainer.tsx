@@ -8,15 +8,6 @@ export interface ItemInputContainerProps {
  const API_URL = 'http://localhost:52395/api/values';
 
 const addItem = (name: string, value: number, category: string, itemList: any): void => {
-  // todo: move this into method and add error checking. Add similiar call for delete
-  const payload = { 'name': name, 'value': value, 'category': category };
-  fetch('http://localhost:52395/api/values', {
-   body: JSON.stringify(payload),
-   headers: {'Accept': 'application/json','Content-Type':'application/json'},
-   method: 'post',
-   mode: 'no-cors' // Required to prevent some weird error
-  });
-
     itemList.add(
         Item.create({
             name,
@@ -24,6 +15,14 @@ const addItem = (name: string, value: number, category: string, itemList: any): 
         }),
         category,
     );
+    
+      const payload = { 'name': name, 'value': value, 'category': category, 'operation': 'add'};
+      fetch(API_URL, {
+      body: JSON.stringify(payload),
+      headers: {'Accept': 'application/json','Content-Type':'application/json'},
+      method: 'post',
+      mode: 'no-cors' // Required to prevent auth error since front and back end on different urls/servers
+  });
 };
 
 export const ItemInputContainer = ({itemList}: ItemInputContainerProps) => {
