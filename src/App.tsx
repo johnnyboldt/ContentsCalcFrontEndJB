@@ -3,11 +3,26 @@ import { Jumbotron } from 'react-bootstrap';
 import ItemsList from './components/ItemsList';
 import ItemInputContainer from './containers/ItemInputContainer';
 import './css/App.css';
- import { Item } from "./models/ItemsStore";
+import { API_URL } from './Globals';
+import { Item } from "./models/ItemsStore";
 import { ItemList } from "./models/ItemsStore";
 
 const itemList = ItemList.create()
-const API_URL = 'http://localhost:52395/api/values';
+
+const GetItems = (): void => {
+  fetch(API_URL)
+  .then(response => response.json())
+  .then(data => {
+    data.map((item:any) => 
+     itemList.add(
+       Item.create({
+           name: item.name,
+           value: parseFloat(item.value),
+       }),
+       item.category,
+     )
+   )})
+};
 
 class App extends React.PureComponent {
   public render() {
@@ -18,19 +33,9 @@ class App extends React.PureComponent {
       </Jumbotron>
     );
   }
+  
   public componentDidMount() {
-     fetch(API_URL)
-     .then(response => response.json())
-     .then(data => {
-       data.map((item:any) => 
-        itemList.add(
-          Item.create({
-              name: item.name,
-              value: item.value === "0" ? 0 : parseFloat(item.value), // todo fix 0 error
-          }),
-          item.category,
-        )
-  )})
+    GetItems();
     }
 }
 

@@ -2,14 +2,14 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import { ListGroupItem, Panel } from 'react-bootstrap';
 import '../css/ItemsList.css';
+import { API_URL } from '../Globals';
 import Category from './Category';
 
 export interface ItemsListProps {
     itemList: any;
 }
-const API_URL = 'http://localhost:52395/api/values';
 
-const deleteItem = (index: number, category: string, itemList: any): void => {
+const RESTDeleteItem = (index: number, category: string, itemList: any): void => {
     const payload = {'name': itemList[category][index].name, 'value': itemList[category][index].value, 'category': category, 'operation': 'delete' };
     fetch(API_URL, {
      body: JSON.stringify(payload),
@@ -17,7 +17,10 @@ const deleteItem = (index: number, category: string, itemList: any): void => {
      method: 'post',
      mode: 'no-cors' // Required to prevent auth error since front and back end on different urls/servers. Also can't delete without cors so using post as a hack
     });
+};
 
+const deleteItem = (index: number, category: string, itemList: any): void => {
+    RESTDeleteItem(index, category, itemList);
     itemList.delete(index, category);
 };
 
