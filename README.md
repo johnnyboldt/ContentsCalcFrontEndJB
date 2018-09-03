@@ -10,4 +10,3 @@ Then in the project directory run:
 
 (npm/yarn) install
 (npm/yarn) start
-
